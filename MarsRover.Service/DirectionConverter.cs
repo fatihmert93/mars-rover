@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MarsRover.Models;
+using MarsRover.Service.Abstracts;
 
 namespace MarsRover.Service
 {
-    public class DirectionConverter
+    public class DirectionConverter : IDirectionConverter
     {
-
-        public static Tuple<bool, Direction> TryParseDirection(char directionString)
+        public Tuple<bool, Direction> TryParseDirection(char directionString)
         {
             Direction direction = Direction.North;
             var success = false;
@@ -40,7 +40,7 @@ namespace MarsRover.Service
             return new Tuple<bool, Direction>(success, direction);
         }
 
-        public static string GetDirectionString(Direction direction)
+        public string GetDirectionString(Direction direction)
         {
             switch (direction)
             {

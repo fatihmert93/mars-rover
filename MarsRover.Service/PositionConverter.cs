@@ -4,12 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MarsRover.Models;
+using MarsRover.Service.Abstracts;
 
 namespace MarsRover.Service
 {
-    public static class PositionConverter
+    public class PositionConverter : IPositionConverter
     {
-        public static Position ParseFirstInputLine(string firstInputLine)
+        private readonly IDirectionConverter _directionConverter;
+
+        public PositionConverter(IDirectionConverter directionConverter)
+        {
+            this._directionConverter = directionConverter;
+        }
+
+        public Position ParseFirstInputLine(string firstInputLine)
         {
             if (string.IsNullOrWhiteSpace(firstInputLine))
                 return null;
@@ -18,7 +26,7 @@ namespace MarsRover.Service
                 return null;
             var successX = int.TryParse(lineParts[0], out var x);
             var successY = int.TryParse(lineParts[1], out var y);
-            var successDirection = DirectionConverter.TryParseDirection(lineParts[2].ToCharArray()[0]);
+            var successDirection = this._directionConverter.TryParseDirection(lineParts[2].ToCharArray()[0]);
             if (!(successX && successY && successDirection.Item1))
                 return null;
             return new Position
@@ -32,10 +40,10 @@ namespace MarsRover.Service
             };
         }
 
-        public static string ConvertToString(this Position position)
+        public string ConvertToString(Position position)
         {
             return string.Format(position.Coordinate.X + " " + position.Coordinate.Y + " " +
-                          DirectionConverter.GetDirectionString(position.Direction));
+                                 this._directionConverter.GetDirectionString(position.Direction));
         }
     }
 }
