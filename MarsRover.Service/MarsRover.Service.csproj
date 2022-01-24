@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MarsRover.Infrastructure\MarsRover.Infrastructure.csproj" />
+    <ProjectReference Include="..\MarsRover.Models\MarsRover.Models.csproj" />
+  </ItemGroup>
+
 </Project>
